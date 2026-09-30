@@ -22,8 +22,7 @@ WORKDIR /app
 # ============================================
 # STAGE 4: Copy Semua File Proyek
 # ============================================
-# PERBAIKAN: Spesifikasikan folder sumbernya
-COPY Seni_Theatrisic/ .
+COPY . .
 
 # ============================================
 # STAGE 5: Berikan Izin Eksekusi ke start.sh
