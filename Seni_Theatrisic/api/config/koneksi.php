@@ -1,27 +1,23 @@
 <?php
-// api/config/koneksi.php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-$host     = getenv('DB_HOST') ?: 'ep-delicate-thunder-b3r1ym8p-pooler.c-4.ap-southeast-1.aws.neon.tech';
-$port     = getenv('DB_PORT') ?: '5432';
-$dbname   = getenv('DB_NAME') ?: 'neondb';
-$username = getenv('DB_USER') ?: 'neondb_owner';
-$password = getenv('DB_PASS') ?: 'npg_GSUzgT4Pay2wep'; // Ganti jika sudah reset password
+$host     = 'ep-delicate-thunder-b3r1ym8p-pooler.c-4.ap-southeast-1.aws.neon.tech';
+$port     = '5432';
+$dbname   = 'neondb';
+$username = 'neondb_owner';
+$password = 'npg_ApB4LZy2CVXH'; 
 
 try {
-    // DSN PostgreSQL dengan SSL wajib untuk Neon
-    $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require";
-
+    // Menyesuaikan DSN dengan menambahkan channel_binding=require
+    $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require;channel_binding=require";
+    
     $pdo = new PDO($dsn, $username, $password, [
-        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_EMULATE_PREPARES   => false,
-        PDO::ATTR_TIMEOUT            => 10,
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_TIMEOUT => 15, // Naikkan timeout untuk membangunkan Neon
     ]);
-
+    
 } catch (PDOException $e) {
-    die('<div style="padding:2rem;background:#f8d7da;color:#721c24;font-family:sans-serif;">
-            <h3>Koneksi Database Gagal</h3>
-            <p>' . htmlspecialchars($e->getMessage()) . '</p>
-         </div>');
+    echo "❌ KONEKSI GAGAL: " . $e->getMessage();
 }
 ?>
